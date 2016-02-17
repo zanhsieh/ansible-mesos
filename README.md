@@ -10,7 +10,7 @@ a simple Mesos/Marathon/Chronos cluster. It will create a cluster with a
 
     vagrant box add centos71-1511 /path/to/your/packer_gen_vagrantbox_file.box
 
-- Install Vagrant plugin cashier:
+- (Optional) Install Vagrant plugin cashier:
 
     vagrant plugin install vagrant-cachier
 
