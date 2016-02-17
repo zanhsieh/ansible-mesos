@@ -6,13 +6,19 @@ a simple Mesos/Marathon/Chronos cluster. It will create a cluster with a
 3x masters and 3x slaves. This is for CentOS 7.1.
 
 ## Instructions
-- Pack CentOS 7.1 vagrant box from official iso with Packer (CentOS 7.1 template [here](https://github.com/shiguredo/packer-templates), build instruction [here](https://www.packer.io/intro/getting-started/build-image.html))
+- Pack CentOS 7.1 vagrant box from official iso with Packer (CentOS 7.1 template
+  [here](https://github.com/shiguredo/packer-templates), build instruction
+  [here](https://www.packer.io/intro/getting-started/build-image.html))
 
     vagrant box add centos71-1511 /path/to/your/packer_gen_vagrantbox_file.box
 
 - (Optional) Install Vagrant plugin cashier:
 
     vagrant plugin install vagrant-cachier
+
+- Create ./files directory and download a version jdk rpm as your choice, or
+  change `java_download_from_oracle` to `true` in ./roles/sun_jdk/defaults/main.yml
+  file.
 
 - Start the cluster with the following commands:
 
