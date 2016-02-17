@@ -3,7 +3,7 @@
 ## Description
 This repository contains Ansible configurations that can be used to bring up
 a simple Mesos/Marathon/Chronos cluster. It will create a cluster with a
-3x masters and 3x slaves.
+3x masters and 3x slaves. This is for CentOS 7.1.
 
 ## Instructions
 - Pack CentOS 7.1 vagrant box from official iso with Packer (CentOS 7.1 template [here](https://github.com/shiguredo/packer-templates), build instruction [here](https://www.packer.io/intro/getting-started/build-image.html))
