@@ -6,12 +6,20 @@ a simple Mesos/Marathon/Chronos cluster. It will create a cluster with a
 3x masters and 3x slaves.
 
 ## Instructions
-You can start the cluster with the following commands:
+- Pack CentOS 7.1 vagrant box from official iso with Packer (CentOS 7.1 template [here](https://github.com/shiguredo/packer-templates), build instruction [here](https://www.packer.io/intro/getting-started/build-image.html))
+
+    vagrant box add centos71-1511 /path/to/your/packer_gen_vagrantbox_file.box
+
+- Install Vagrant plugin cashier:
+
+    vagrant plugin install vagrant-cachier
+
+- Start the cluster with the following commands:
 
     vagrant up
     ./init-cluster.sh
 
-This will start the three Vagrant machines, install a mesos cluster on them,
+This will start the 6 Vagrant machines, install a mesos cluster on them,
 and install two sample Marathon apps, and a smaple Chronos app. This will take
 a long time if it is the first time you have run it as it will have to
 download the vm images, the packages and the docker images.
