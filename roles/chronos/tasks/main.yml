@@ -2,6 +2,19 @@
 - name: Install Chronos
   yum: name="chronos-{{ chronos_version }}" state=installed
 
+- name: Make chronos config directories
+  file:
+    state: directory
+    path: "{{ item }}"
+  with_items:
+    - /etc/chronos/conf
+
+- name: Configure node hostname
+  copy:
+    content: "{{ hostvars[inventory_hostname]['ansible_' + bind_interface].ipv4.address }}"
+    dest: /etc/chronos/conf/hostname
+  notify: restart chronos
+
 - name: Enable Chronos
   service: name=chronos state=started enabled=yes
 

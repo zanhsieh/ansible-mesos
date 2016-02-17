@@ -10,7 +10,8 @@
 
     - role: marathon
       tags: [marathon, mesos, app]
+      bind_interface: enp0s8
 
     - role: chronos
       tags: [chronos, mesos, app]
-
+      bind_interface: enp0s8

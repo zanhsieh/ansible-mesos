@@ -1,0 +1,10 @@
+maxClientCnxns={{ max_client_connection_sec }}
+tickTime={{ tick_time }}
+dataDir={{ data_dir }}
+clientPort={{ client_port }}
+initLimit={{ init_limit }}
+syncLimit={{ sync_limit }}
+
+{% for server in groups.zookeeper|reverse %}
+server.{{loop.index}}={{ hostvars[server]['ansible_'+bind_interface].ipv4.address }}:2888:3888
+{% endfor %}

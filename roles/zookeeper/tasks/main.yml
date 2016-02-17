@@ -1,13 +1,18 @@
 ---
 - name: Install Zookeeper
-  yum: name="mesosphere-zookeeper-{{ zookeeper_version }}" state=installed
+  yum: name={{ item }} state=installed
+  with_items:
+    - mesosphere-zookeeper-{{ zookeeper_version }}
 
-- name: Configure the master standalone
-  copy:
-    content: "1"
-    dest: "/var/lib/zookeeper/myid"
-  notify: restart zookeeper
+- name: Write myid file
+  template: src=myid.j2 dest=/var/lib/zookeeper/myid
+  notify:
+    - restart zookeeper
+
+- name: Configure zookeeper
+  template: src=zoo.cfg.j2 dest=/etc/zookeeper/conf/zoo.cfg
+  notify:
+    -restart zookeeper
 
 - name: Start Zookeeper
   service: name=zookeeper state=started enabled=yes
-

@@ -23,6 +23,12 @@
     dest: /etc/mesos-slave/executor_registration_timeout
   notify: restart mesos-slave
 
+- name: Configure wider port ranges to accept requests
+  copy:
+    content: "ports:[1025-65000]"
+    dest: /etc/mesos-slave/resources
+  notify: restart mesos-slave
+
 - name: Disable Mesos Master
   service: name=mesos-master state=stopped enabled=no
 

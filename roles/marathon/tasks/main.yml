@@ -7,13 +7,30 @@
     state: directory
     path: "{{ item }}"
   with_items:
-    - /etc/marathon
     - /etc/marathon/conf
+
+- name: Configure node hostname
+  copy:
+    content: "{{ hostvars[inventory_hostname]['ansible_' + bind_interface].ipv4.address }}"
+    dest: /etc/marathon/conf/hostname
+  notify: restart marathon
 
 - name: Configure the Marathon callbacks
   copy:
     content: "http_callback"
     dest: /etc/marathon/conf/event_subscriber
+  notify: restart marathon
+
+- name: Configure Mesos server entries in zookeeper
+  template:
+    src: master.j2
+    dest: /etc/marathon/conf/master
+  notify: restart marathon
+
+- name: Configure Marathon server entries in zookeeper
+  template:
+    src: zk.j2
+    dest: /etc/marathon/conf/zk
   notify: restart marathon
 
 - name: Enable Marathon

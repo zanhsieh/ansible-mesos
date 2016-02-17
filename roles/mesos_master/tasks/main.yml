@@ -5,10 +5,20 @@
     dest: /etc/mesos-master/cluster
   notify: restart mesos-master
 
+- name: Configure node hostname
+  copy:
+    content: "{{ hostvars[inventory_hostname]['ansible_' + bind_interface].ipv4.address }}"
+    dest: /etc/mesos-master/hostname
+  notify: restart mesos-master
+
 - name: Configure the bind interface
   copy:
     content: "{{ hostvars[inventory_hostname]['ansible_' + bind_interface].ipv4.address }}"
     dest: /etc/mesos-master/ip
+  notify: restart mesos-master
+
+- name: Configure quorum
+  template: src=quorum.j2 dest=/etc/mesos-master/quorum
   notify: restart mesos-master
 
 - name: Enable Mesos Master

@@ -1,0 +1,7 @@
+---
+max_client_connection_sec: 50
+tick_time: 2000
+data_dir: /var/lib/zookeeper
+client_port: 2181
+init_limit: 10
+sync_limit: 5

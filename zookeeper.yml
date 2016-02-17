@@ -6,3 +6,4 @@
   roles:
     - role: zookeeper
       tags: [zookeeper, app]
+      bind_interface: enp0s8

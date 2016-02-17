@@ -1,4 +1,7 @@
 ---
 dependencies:
+  - role: sun_jdk
+    tags: [java]
+    
   - role: mesos_repository
     tags: [mesos]

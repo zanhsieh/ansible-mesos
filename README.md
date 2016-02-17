@@ -3,7 +3,7 @@
 ## Description
 This repository contains Ansible configurations that can be used to bring up
 a simple Mesos/Marathon/Chronos cluster. It will create a cluster with a
-single master and two slaves.
+3x masters and 3x slaves.
 
 ## Instructions
 You can start the cluster with the following commands:
@@ -23,21 +23,38 @@ Marathon and chronos services.
 
 ## Details
 
-### master-1
+### mesos-master1
 - **Role:** Master
 - **OS:** CentOS 7
-- **Apps:** Zookeeper, [Mesos](http://192.168.77.254:5050/), [Marathon](http://192.168.77.254:8080/), [Chronos](http://192.168.77.254:4400/)
-- **IP:** `192.168.77.254`
+- **Apps:** Zookeeper, [Mesos](http://192.168.122.11:5050/), [Marathon](http://192.168.122.11:8080/), [Chronos](http://192.168.122.11:4400/)
+- **IP:** `192.168.122.11`
 
-### slave-1
+### mesos-master2
+- **Role:** Master
+- **OS:** CentOS 7
+- **Apps:** Zookeeper, [Mesos](http://192.168.122.12:5050/), [Marathon](http://192.168.122.12:8080/), [Chronos](http://192.168.122.12:4400/)
+- **IP:** `192.168.122.12`
+
+### mesos-master3
+- **Role:** Master
+- **OS:** CentOS 7
+- **Apps:** Zookeeper, [Mesos](http://192.168.122.13:5050/), [Marathon](http://192.168.122.13:8080/), [Chronos](http://192.168.122.13:4400/)
+- **IP:** `192.168.122.13`
+
+### mesos-slave1
 - **Role:** Slave
 - **OS:** CentOS 7
-- **Apps:** Mesos, Docker, [HAProxy](http://192.168.77.10:9090/)
-- **IP:** `192.168.77.10`
+- **Apps:** Mesos, Docker, [HAProxy](http://192.168.122.15:9090/)
+- **IP:** `192.168.122.15`
 
-### slave-2
+### mesos-slave2
 - **Role:** Slave
 - **OS:** CentOS 7
-- **Apps:** Mesos, Docker, [HAProxy](http://192.168.77.11:9090/)
-- **IP:** `192.168.77.11`
+- **Apps:** Mesos, Docker, [HAProxy](http://192.168.122.16:9090/)
+- **IP:** `192.168.122.16`
 
+### mesos-slave3
+- **Role:** Slave
+- **OS:** CentOS 7
+- **Apps:** Mesos, Docker, [HAProxy](http://192.168.122.17:9090/)
+- **IP:** `192.168.122.17
