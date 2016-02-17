@@ -12,7 +12,7 @@
 - name: Configure zookeeper
   template: src=zoo.cfg.j2 dest=/etc/zookeeper/conf/zoo.cfg
   notify:
-    -restart zookeeper
+    - restart zookeeper
 
 - name: Start Zookeeper
   service: name=zookeeper state=started enabled=yes
