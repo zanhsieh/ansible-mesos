@@ -2,8 +2,8 @@
 
 ## Description
 This repository contains Ansible configurations that can be used to bring up
-a simple Mesos/Marathon/Chronos cluster. It will create a cluster with a
-3x masters and 3x slaves. This is for CentOS 7.1.
+a simple Mesos/Marathon/Chronos cluster with Consul. It will create a cluster 
+with 3x masters and 3x slaves. Target platform is CentOS 7.1.
 
 ## Instructions
 - Pack CentOS 7.1 vagrant box from official iso with Packer (CentOS 7.1 template
@@ -40,35 +40,35 @@ Marathon and chronos services.
 ### mesos-master1
 - **Role:** Master
 - **OS:** CentOS 7
-- **Apps:** Zookeeper, [Mesos](http://192.168.122.11:5050/), [Marathon](http://192.168.122.11:8080/), [Chronos](http://192.168.122.11:4400/)
+- **Apps:** Zookeeper, [Mesos](http://192.168.122.11:5050/), [Marathon](http://192.168.122.11:8080/), [Chronos](http://192.168.122.11:4400/), [Consul](http://192.168.122.11:8500/)
 - **IP:** `192.168.122.11`
 
 ### mesos-master2
 - **Role:** Master
 - **OS:** CentOS 7
-- **Apps:** Zookeeper, [Mesos](http://192.168.122.12:5050/), [Marathon](http://192.168.122.12:8080/), [Chronos](http://192.168.122.12:4400/)
+- **Apps:** Zookeeper, [Mesos](http://192.168.122.12:5050/), [Marathon](http://192.168.122.12:8080/), [Chronos](http://192.168.122.12:4400/), [Consul](http://192.168.122.12:8500/)
 - **IP:** `192.168.122.12`
 
 ### mesos-master3
 - **Role:** Master
 - **OS:** CentOS 7
-- **Apps:** Zookeeper, [Mesos](http://192.168.122.13:5050/), [Marathon](http://192.168.122.13:8080/), [Chronos](http://192.168.122.13:4400/)
+- **Apps:** Zookeeper, [Mesos](http://192.168.122.13:5050/), [Marathon](http://192.168.122.13:8080/), [Chronos](http://192.168.122.13:4400/), [Consul](http://192.168.122.13:8500/)
 - **IP:** `192.168.122.13`
 
 ### mesos-slave1
 - **Role:** Slave
 - **OS:** CentOS 7
-- **Apps:** Mesos, Docker, [HAProxy](http://192.168.122.15:9090/)
+- **Apps:** Mesos, Docker, Consul, [HAProxy](http://192.168.122.15:9090/)
 - **IP:** `192.168.122.15`
 
 ### mesos-slave2
 - **Role:** Slave
 - **OS:** CentOS 7
-- **Apps:** Mesos, Docker, [HAProxy](http://192.168.122.16:9090/)
+- **Apps:** Mesos, Docker, Consul, [HAProxy](http://192.168.122.16:9090/)
 - **IP:** `192.168.122.16`
 
 ### mesos-slave3
 - **Role:** Slave
 - **OS:** CentOS 7
-- **Apps:** Mesos, Docker, [HAProxy](http://192.168.122.17:9090/)
+- **Apps:** Mesos, Docker, Consul, [HAProxy](http://192.168.122.17:9090/)
 - **IP:** `192.168.122.17
