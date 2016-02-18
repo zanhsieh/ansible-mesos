@@ -10,8 +10,8 @@
    - role: etc_hosts
      interface: enp0s8
 
+- include: "zookeeper.yml"
+- include: "mesos-master.yml"
+- include: "mesos-slave.yml"
 - include: "consul-server.yml"
 - include: "consul-client.yml"
-#- include: "zookeeper.yml"
-#- include: "mesos-master.yml"
-#- include: "mesos-slave.yml"
