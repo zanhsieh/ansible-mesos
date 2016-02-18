@@ -1,0 +1,9 @@
+---
+- name: Setup the Consul Clients
+  hosts: consul_client
+  vars_files:
+    - vars/consul.yml
+  roles:
+    - role: consul_client
+      tags: [consul_client, consul, app]
+      bind_interface: enp0s8

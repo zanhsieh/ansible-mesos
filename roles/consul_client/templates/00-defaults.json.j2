@@ -1,0 +1,36 @@
+{
+  "advertise_addr": "{{ consul_conf_advertise_addr }}",
+  "datacenter": "{{ consul_conf_datacenter }}",
+  "bind_addr": "{{ consul_conf_bind_addr }}",
+  "client_addr": "{{ consul_conf_client_addr }}",
+  "addresses": {
+    "dns": "{{ consul_conf_addresses_dns }}",
+    "http": "{{ consul_conf_addresses_http }}",
+    "https": "{{ consul_conf_addresses_https }}",
+    "rpc": "{{ consul_conf_addresses_rpc }}"
+  },
+  "data_dir": "{{ consul_conf_data_dir }}",
+  "log_level": "{{ consul_conf_log_level }}",
+{% if consul_enable_syslog is defined %}
+  "enable_syslog": {{ consul_enable_syslog | lower }},
+{% endif %}
+  "node_name": "{{ consul_conf_node_name }}",
+  "server": false,
+  "leave_on_terminate": {{ consul_conf_leave_on_terminate | to_json }},
+  "start_join": [
+  {%- for server in groups.consul_server -%}
+  "{{ hostvars[server]['ansible_'+bind_interface].ipv4.address }}"
+  {%- if not loop.last -%},
+  {%- endif -%}
+  {%- endfor -%}
+  ],
+  "retry_join": [
+  {%- for server in groups.consul_server -%}
+  "{{ hostvars[server]['ansible_'+bind_interface].ipv4.address }}"
+  {%- if not loop.last -%},
+  {%- endif -%}
+  {%- endfor -%}
+  ],
+  "retry_interval": "{{ consul_conf_retry_interval }}",
+  "disable_update_check": {{ consul_conf_disable_update_check | to_json }}
+}

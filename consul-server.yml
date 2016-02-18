@@ -1,0 +1,9 @@
+---
+- name: Setup the Consul Servers
+  hosts: consul_server
+  vars_files:
+    - vars/consul.yml
+  roles:
+    - role: consul_server
+      tags: [consul_server, consul_web_ui, consul, app]
+      bind_interface: enp0s8

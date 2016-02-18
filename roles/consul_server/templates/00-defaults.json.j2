@@ -1,0 +1,45 @@
+{
+  "advertise_addr": "{{ consul_conf_advertise_addr }}",
+  "datacenter": "{{ consul_conf_datacenter }}",
+{% if consul_conf_bootstrap is defined %}
+  "bootstrap": {{ consul_conf_bootstrap }},
+{% endif %}
+{% if consul_conf_bootstrap_expect is defined %}
+  "bootstrap_expect": {{ consul_conf_bootstrap_expect }},
+{% endif %}
+{% if consul_install_webui %}
+  "ui_dir": "{{ consul_webui_path }}",
+{% endif %}
+  "bind_addr": "{{ consul_conf_bind_addr }}",
+  "client_addr": "{{ consul_conf_client_addr }}",
+  "addresses": {
+    "dns": "{{ consul_conf_addresses_dns }}",
+    "http": "{{ consul_conf_addresses_http }}",
+    "https": "{{ consul_conf_addresses_https }}",
+    "rpc": "{{ consul_conf_addresses_rpc }}"
+  },
+  "data_dir": "{{ consul_conf_data_dir }}",
+  "log_level": "{{ consul_conf_log_level }}",
+{% if consul_enable_syslog is defined %}
+  "enable_syslog": {{ consul_enable_syslog | lower }},
+{% endif %}
+  "node_name": "{{ consul_conf_node_name }}",
+  "server": true,
+  "leave_on_terminate": {{ consul_conf_leave_on_terminate | to_json }},
+  "start_join": [
+  {%- for server in groups.consul_server | difference(ansible_all_ipv4_addresses) -%}
+  "{{ hostvars[server]['ansible_'+bind_interface].ipv4.address }}"
+  {%- if not loop.last -%},
+  {%- endif -%}
+  {%- endfor -%}
+  ],
+  "retry_join": [
+  {%- for server in groups.consul_server | difference(ansible_all_ipv4_addresses) -%}
+  "{{ hostvars[server]['ansible_'+bind_interface].ipv4.address }}"
+  {%- if not loop.last -%},
+  {%- endif -%}
+  {%- endfor -%}
+  ],
+  "retry_interval": "{{ consul_conf_retry_interval }}",
+  "disable_update_check": {{ consul_conf_disable_update_check | to_json }}
+}

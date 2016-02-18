@@ -42,6 +42,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
             "slave" => $Slaves,
             "master" => $Masters,
             "zookeeper" => $Masters,
+            "consul_server" => $Masters,
+            "consul_client" => $Slaves,
           }
         end
       end
