@@ -8,7 +8,7 @@
 - name: Configure Docker network options
   copy:
     content: "DOCKER_NETWORK_OPTIONS=-H tcp://0.0.0.0:2375 -H tcp://0.0.0.0:4243 -H unix:///var/run/docker.sock"
-    dest: /etc/sysconfig/docker-network
+    dest: "/etc/sysconfig/docker-network"
   notify: restart docker
 
 - name: Start Docker Daemon

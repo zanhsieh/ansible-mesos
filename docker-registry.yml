@@ -1,0 +1,9 @@
+---
+- name: Setup Docker Registry
+  hosts: docker_registry
+  vars_files:
+    - vars/docker_registry.yml
+  roles:
+    - role: docker_registry
+      tags: [docker_registry, docker, app]
+      bind_interface: enp0s8

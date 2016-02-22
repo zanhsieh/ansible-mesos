@@ -1,0 +1,27 @@
+---
+# Ansible docker core module required docker-py to run, which is required
+# to install from pip
+- name: Ensure pip installed
+  yum: name=python-pip state=present
+
+# Set docker-py to version 1.2.3 in order to work around "Docker API Error: 
+# client is newer than server (client API version: 1.21, server API 
+# version: 1.20)". See:
+# https://github.com/ansible/ansible-docker-base/issues/19
+- name: Ensure docker-py installed
+  pip: name=docker-py version=1.2.3 state=present
+
+- name: Start Docker Daemon
+  service: name=docker state=started enabled=yes
+
+- name: Create /var/data directory
+  file: path=/var/data state=directory mode=0755 recurse=yes
+
+# docker run -v $(pwd)/data:/tmp/registry-dev --name docker-registry registry:2.0
+- name: Pull and run docker registry
+  docker:
+    name: docker-registry
+    image: registry:{{ docker_registry_version }}
+    restart_policy: always
+    volumes:
+      - /var/data:/tmp/registry-dev

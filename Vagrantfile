@@ -2,12 +2,13 @@
 # vi: set ft=ruby :
 
 $IPs = {
-  "mesos-slave3"   => "192.168.122.17",
-  "mesos-slave2"   => "192.168.122.16",
-  "mesos-slave1"   => "192.168.122.15",
-  "mesos-master3"  => "192.168.122.13",
-  "mesos-master2"  => "192.168.122.12",
-  "mesos-master1"  => "192.168.122.11"
+  "docker-registry" => "192.168.122.18",
+  "mesos-slave3"    => "192.168.122.17",
+  "mesos-slave2"    => "192.168.122.16",
+  "mesos-slave1"    => "192.168.122.15",
+  "mesos-master3"   => "192.168.122.13",
+  "mesos-master2"   => "192.168.122.12",
+  "mesos-master1"   => "192.168.122.11"
 }
 
 $Masters = $IPs.select { |k,v| k.to_s.match(/^mesos-master\d+/) }.keys
@@ -44,6 +45,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
             "zookeeper" => $Masters,
             "consul_server" => $Masters,
             "consul_client" => $Slaves,
+            "docker_registry" => "docker-registry",
           }
         end
       end
