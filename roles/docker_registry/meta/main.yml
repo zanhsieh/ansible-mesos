@@ -1,4 +1,4 @@
 ---
 dependencies:
   - role: docker
-    tags: [docker]
+    tags: [docker_registry, docker]

@@ -2,7 +2,7 @@
 # vi: set ft=ruby :
 
 $IPs = {
-  "docker-registry" => "192.168.122.18",
+  "registry"        => "192.168.122.18",
   "mesos-slave3"    => "192.168.122.17",
   "mesos-slave2"    => "192.168.122.16",
   "mesos-slave1"    => "192.168.122.15",
@@ -34,6 +34,15 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       m.vm.hostname = "#{k}"
       m.vm.network "private_network", ip: "#{v}"
       case k
+      when "registry"
+        m.vm.provision "ansible" do |ansible|
+          ansible.playbook = "registry.yml"
+          ansible.limit = "all"
+          ansible.sudo = true
+          ansible.groups = {
+            "docker_registry" => "registry",
+          }
+        end
       when "mesos-master1"
         m.vm.provision "ansible" do |ansible|
           ansible.playbook = "all.yml"
@@ -45,7 +54,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
             "zookeeper" => $Masters,
             "consul_server" => $Masters,
             "consul_client" => $Slaves,
-            "docker_registry" => "docker-registry",
+            "docker_registry" => "registry",
           }
         end
       end

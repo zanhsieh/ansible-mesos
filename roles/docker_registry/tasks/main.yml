@@ -1,65 +1,22 @@
 ---
-# Ansible docker core module required docker-py to run, which is required
-# to install from pip
-- name: Ensure pip installed
-  yum: name=python-pip state=present
+- name: Check docker version
+  shell: docker --version
+  register: docker_version
 
-# Set docker-py to version 1.2.3 in order to work around "Docker API Error:
-# client is newer than server (client API version: 1.21, server API
-# version: 1.20)". See:
-# https://github.com/ansible/ansible-docker-base/issues/19
-- name: Ensure docker-py installed
-  pip: name=docker-py version=1.2.3 state=present
+#- debug: msg="{{ docker_version.stdout|group('Docker\sversion\s(\d\.\d\.\d),\sbuild\s(\w*)', 1) }}"
 
-- name: Start Docker Daemon
-  service: name=docker state=started enabled=yes
+- name: Install Docker Registry v2 for Debian
+  include: docker-registry-v2.yml
+  when: ansible_os_family == "Debian" and docker_version.stdout|group('Docker\sversion\s(\d\.\d\.\d),\sbuild\s(\w*)', 1)|version_compare(1.6, '>=')
 
-- name: Create /var/data directory
-  file: path=/var/data state=directory mode=0755 recurse=yes
+- name: Install Docker Registry v2 for RedHat
+  include: docker-registry-v2.yml
+  when: ansible_os_family == "RedHat" and docker_version.stdout|group('Docker\sversion\s(\d\.\d\.\d).*,\sbuild\s(\w*)', 1)|version_compare(1.6, '>=')
 
-# docker run -v $(pwd)/data:/tmp/registry-dev --name docker-registry registry:2.0
-- name: Pull and run docker registry
-  docker:
-    name: docker-registry
-    image: registry:{{ docker_registry_version }}
-    volumes:
-      - /var/data:/tmp/registry-dev
+- name: Install Docker Registry v1 for Debian or RedHat
+  include: docker-registry-v1.yml
+  when: ansible_os_family == "Debian" and docker_version.stdout|group('Docker\sversion\s(\d\.\d\.\d),\sbuild\s(\w*)', 1)|version_compare(1.6, '<')
 
-- name: Create /etc/nginx/certs
-  file: path=/etc/nginx/certs state=directory mode=0755 recurse=yes
-
-- name: Copy files from local
-  copy: src={{ item.src }} dest={{ item.dest }} mode={{ item.mode|default('0644') }}
-  with_items:
-    - src: "../files/docker-registry.cert"
-      dest: "/etc/nginx/certs/docker-registry.cert"
-    - src: "../files/docker-registry.key"
-      dest: "/etc/nginx/certs/docker-registry.key"
-    - src: "../files/htpasswd"
-      dest: "/etc/nginx/.htpasswd"
-    - src: "../files/nginx"
-      dest: "/etc/nginx/nginx.conf"
-
-#docker run -p 443:443
-#    -e REGISTRY_HOST="docker-registry"
-#    -e REGISTRY_PORT="5000"
-#    -e SERVER_NAME="localhost"
-#    --link docker-registry:docker-registry
-#    -v $(pwd)/.htpasswd:/etc/nginx/.htpasswd:ro
-#    -v $(pwd)/certs:/etc/nginx/ssl:ro
-#    containersol/docker-registry-proxy
-- name: Run docker-registry frontend
-  docker:
-    image: containersol/docker-registry-proxy
-    ports:
-      - "443:443"
-    volumes:
-      - /etc/nginx/.htpasswd:/etc/nginx/.htpasswd:ro
-      - /etc/nginx/certs:/etc/nginx/ssl:ro
-      - /etc/nginx/nginx.conf:/etc/nginx/nginx.conf
-    env:
-      REGISTRY_HOST: docker-registry
-      REGISTRY_PORT: 5000
-      SERVER_NAME: localhost
-    links:
-      - "docker-registry:docker-registry"
+- name: Install Docker Registry v1 for RedHat
+  include: docker-registry-v1.yml
+  when: ansible_os_family == "RedHat" and docker_version.stdout|group('Docker\sversion\s(\d\.\d\.\d).*,\sbuild\s(\w*)', 1)|version_compare(1.6, '<')

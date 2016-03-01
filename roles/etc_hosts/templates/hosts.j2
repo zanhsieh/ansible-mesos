@@ -3,3 +3,4 @@
 {% for host in groups.all %}
 {{ hostvars[host]['ansible_'+interface].ipv4.address }}	{{ host }}
 {% endfor %}
+{{ hostvars['registry']['ansible_'+interface].ipv4.address }}   dreg.org
