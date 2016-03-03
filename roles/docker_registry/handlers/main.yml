@@ -1,13 +1,12 @@
 ---
+- name: restart docker
+  service: name=docker state=restarted
 
-    - name: restart docker
-      service: name=docker state=restarted
+- name: restart docker-registry
+  service: name=docker-registry state=restarted
 
-    - name: restart docker-registry
-      service: name=docker-registry state=restarted
+- name: restart registry
+  shell: docker restart registry
 
-    - name: restart registry
-      shell: docker restart registry
-
-    - name: restart nginx
-      service: name=nginx state=restarted
+- name: restart nginx
+  service: name=nginx state=restarted
