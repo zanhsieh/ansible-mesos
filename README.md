@@ -77,4 +77,4 @@ Marathon and chronos services.
 - **Role:** Slave
 - **OS:** CentOS 7
 - **Apps:** Mesos, Docker, Consul, [HAProxy](http://192.168.122.17:9090/)
-- **IP:** `192.168.122.17
+- **IP:** `192.168.122.17`
