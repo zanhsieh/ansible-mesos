@@ -13,7 +13,6 @@
     state: absent
     validate: 'visudo -cf %s'
 
-
 - name: Dont require a tty
   lineinfile:
     dest: /etc/sudoers
@@ -21,3 +20,5 @@
     line: '#Defaults   !visiblepw'
     validate: 'visudo -cf %s'
 
+- name: Set HKT timezone
+  file: src=/usr/share/zoneinfo/Asia/Hong_Kong  dest=/etc/localtime state=link force=yes

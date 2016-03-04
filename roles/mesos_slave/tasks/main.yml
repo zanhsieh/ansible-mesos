@@ -35,3 +35,17 @@
 - name: Enable Mesos Slave
   service: name=mesos-slave state=started enabled=yes
 
+- name: Check if ssl certificate created
+  local_action: shell ls ./ssl/*crt
+  register: local_certificate
+  sudo: yes
+
+#- debug: msg="{{ local_certificate.stdout }}"
+
+- name: Create certificate domain directory
+  file: path=/etc/docker/certs.d/{{local_certificate.stdout|group('ssl\/(.*)\.crt', 1)}}:443 state=directory
+  when: local_certificate.stdout != ""
+
+- name: Copy certificate to target host
+  copy: src=./ssl/{{local_certificate.stdout|group('ssl\/(.*)\.crt', 1)}}.crt dest=/etc/docker/certs.d/{{local_certificate.stdout|group('ssl\/(.*)\.crt', 1)}}:443/ca.crt
+  notify: restart docker

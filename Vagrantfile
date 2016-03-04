@@ -56,6 +56,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
             "consul_client" => $Slaves,
             "docker_registry" => "registry",
           }
+          # ansible.raw_arguments = [
+          #   "-vvv"
+          # ]
         end
       end
     end
