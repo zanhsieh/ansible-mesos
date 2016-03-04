@@ -37,6 +37,12 @@ Marathon and chronos services.
 
 ## Details
 
+### registry
+- **Role:** Docker Registry
+- **OS:** CentOS 7
+- **Apps:** Docker, Docker Registry
+- **IP:** `192.168.122.18`
+
 ### mesos-master1
 - **Role:** Master
 - **OS:** CentOS 7
